@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "962603617469",
+    "firebase_url": "https://sozluk-uygulamasi-d5bda-default-rtdb.firebaseio.com",
+    "project_id": "sozluk-uygulamasi-d5bda",
+    "storage_bucket": "sozluk-uygulamasi-d5bda.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:962603617469:android:fc50ba42217d6968547bd4",
+        "android_client_info": {
+          "package_name": "com.example.sozlukuygulamasi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "962603617469-2eq9fl6poh9th6e90d888eq93n51hmuv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMVxpO63nX1hxLFXolBw2fYyod1hheiBQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "962603617469-2eq9fl6poh9th6e90d888eq93n51hmuv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
