@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:sozlukuygulamasi/detaysayfa.dart';
 import 'package:sozlukuygulamasi/kelimeler.dart';
@@ -35,19 +36,7 @@ class _AnasayfaState extends State<Anasayfa> {
   bool aramaYapiliyorMu = false;
   String aramaKelimesi = "";
 
-  Future<List<Kelimeler>> tumKelimelerGoster() async {
-    var kelimelerListesi = <Kelimeler>[];
-
-    var k1 = Kelimeler(1, "Dog", "Köpek");
-    var k2 = Kelimeler(2, "Fish", "Balık");
-    var k3 = Kelimeler(3, "Table", "Masa");
-
-    kelimelerListesi.add(k1);
-    kelimelerListesi.add(k2);
-    kelimelerListesi.add(k3);
-
-    return kelimelerListesi;
-  }
+  var refKelimeler = FirebaseDatabase.instance.ref().child("kelimeler");
 
   @override
   Widget build(BuildContext context) {
@@ -83,13 +72,28 @@ class _AnasayfaState extends State<Anasayfa> {
               )
             : Text("Sözlük Uygulaması"),
       ),
-      body: FutureBuilder<List<Kelimeler>>(
-        future: tumKelimelerGoster(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            var kelimelerListesi = snapshot.data;
+      body: StreamBuilder<DatabaseEvent>(
+        stream: refKelimeler.onValue,
+        builder: (context, event) {
+          if (event.hasData) {
+            var kelimelerListesi = <Kelimeler>[];
+            var gelenDegerler = event.data!.snapshot.value as dynamic;
+            if(gelenDegerler != null){
+              gelenDegerler.forEach((key, nesne){
+                var gelenKelime = Kelimeler.fromJson(key, nesne);
+
+                if(aramaYapiliyorMu){
+                  if(gelenKelime.ingilizce.contains(aramaKelimesi)){
+                  kelimelerListesi.add(gelenKelime);
+                  }
+                }else{
+                  kelimelerListesi.add(gelenKelime);
+                }
+
+              });
+            }
             return ListView.builder(
-              itemCount: kelimelerListesi!.length,
+              itemCount: kelimelerListesi.length,
               itemBuilder: (context, indeks) {
                 var kelime = kelimelerListesi[indeks];
                 return GestureDetector(
